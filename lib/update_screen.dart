@@ -12,9 +12,24 @@ class UpdateScreen extends StatefulWidget {
 }
 
 class UpdateScreenState extends State<UpdateScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _editingController = TextEditingController(text: initialText);
+  }
+
+  @override
+  void dispose() {
+    _editingController.dispose();
+    super.dispose();
+  }
+
   final databaseReference = FirebaseDatabase.instance.ref().child("users");
   final formkey = GlobalKey<FormState>();
   final documentReference = FirebaseDatabase.instance;
+  bool _isEditingText = false;
+  late TextEditingController _editingController;
+  String initialText = "Initial Text";
 
   @override
   Widget build(BuildContext context) {
@@ -28,26 +43,10 @@ class UpdateScreenState extends State<UpdateScreen> {
                 children: [
                   Column(children: [
                     Row(children: [
-                      // Text(snapshot.value['First Nmae']),
-                      // Text(snapshot.value['Date of Birth']),
-                      // Text(snapshot.value['Email']),
-                      // Text(snapshot.value['Phone Number']),
-                      // Text(snapshot.value['Adsress']),
                       Container(
                         decoration: const BoxDecoration(color: Colors.red),
                         child: IconButton(
-                            onPressed: () {
-                              // var key = snapshot.key;
-                              // print(key);
-                              // updatedialoge(
-                              //     snapshot.value!().["First name"],
-                              //     (snapshot.value!.value())['Address'],
-                              //     (snapshot.value!.value())['Date of Birth'],
-                              //     (snapshot.value!.value())['Eamil Id'],
-                              //     (snapshot.value!.value())['phone number'],
-                              //     context,
-                              //     snapshot.key);
-                            },
+                            onPressed: () {},
                             alignment: Alignment.centerRight,
                             icon: const Icon(Icons.edit)),
                       ),

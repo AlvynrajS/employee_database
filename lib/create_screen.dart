@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:employee_details/main.dart';
+import 'package:employee_details/read_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,8 +18,8 @@ class CreateScreenState extends State<CreateScreen> {
   final _formkey = GlobalKey<FormState>();
 
   TextEditingController firstname = TextEditingController();
-  TextEditingController dateofbirth = TextEditingController();
-  TextEditingController address = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController dob = TextEditingController();
   TextEditingController phonenumber = TextEditingController();
   TextEditingController email = TextEditingController();
 
@@ -35,27 +36,26 @@ class CreateScreenState extends State<CreateScreen> {
                 children: [
                   buildHeaders("Personal Information"),
                   buildTextForm(firstname, "First Name", "First Name"),
-                  buildTextForm(dateofbirth, "Date of birth", "Date of Birth"),
-                  buildTextForm(address, "Address", "Address"),
-                  buildTextForm(phonenumber, "Phone Number", "Phone Number"),
                   buildTextForm(email, "Email", "Emial"),
-                  // buildTextForm("Last Name", "Last Name"),
-                  // buildTextForm("Married states", "Married States"),
-                  // buildTextForm("Spouse/Father's Name", "Spouse/Father's Name"),
-                  // buildHeaders("Job Information"),
-                  // buildTextForm("Title", "Titile"),
-                  // buildTextForm("Employee ID", "Employee ID"),
-                  // buildTextForm("Department", "Department"),
-                  // buildTextForm("Company Email", "Company Email"),
-                  // buildTextForm("DD/MM/YYYY", "Date of Joining"),
-                  ElevatedButton(
-                      onPressed: () {
-                        bool? validated = _formkey.currentState?.validate();
-                        if (validated == true) {
-                          showSaveDialoge(context);
-                        }
-                      },
-                      child: const Text("Save"))
+                  buildTextForm(phonenumber, "Phone Number", "Phone Number"),
+                  buildTextForm(dob, "Date of birth", "Date of Birth"),
+                  // buildTextForm(password, "password", "password"),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: ElevatedButton(
+                        onPressed: () {
+                          bool? validated = _formkey.currentState?.validate();
+                          if (validated == true) {
+                            showSaveDialoge(context);
+                          }
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             const EmployeeListScreen()));
+                        },
+                        child: const Text("Save")),
+                  )
                 ],
               )),
         ),
@@ -110,26 +110,20 @@ class CreateScreenState extends State<CreateScreen> {
               TextButton(
                   onPressed: () {
                     FirebaseFirestore.instance.collection('users').add({
-                      "Address": address.text,
-                      "Date of Birth": dateofbirth.text,
+                      "password": password.text,
+                      "Date of Birth": dob.text,
                       "Email": email.text,
                       "Phone Number": phonenumber.text,
                       "First Name": firstname.text,
-                      // "Last Name": value.text,
-                      // "Married States": value.text,
-                      // "Spouse/Father's Name": value.text,
-                      // "Job Information": value.text,
-                      // "Title": value.text,
-                      // "Employee ID": value.text,
-                      // "Department": value.text,
-                      // "Company Email": value.text,
-                      // "Date of Joining": value.text,
                     }).then(((value) {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MyHomePage(
-                                title: 'Employee Details',
-                              )));
+                          builder: (context) => EmployeeListScreen()));
                     }));
+
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const EmployeeListScreen()));
                   },
                   child: const Text("Ok"))
             ],

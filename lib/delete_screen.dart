@@ -17,7 +17,7 @@ class _DeleteScreenState extends State<DeleteScreen> {
           onPressed: () {
             final documentChange =
                 FirebaseFirestore.instance.collection("users");
-            documentChange.doc("yFv29JjZvTWZDv5NGV5O").delete();
+            documentChange.doc().delete();
             showDeleteDialoge(context);
           },
           child: const Text("Delete Data")),

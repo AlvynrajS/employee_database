@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:employee_details/delete_screen.dart';
+import 'package:employee_details/login_screen.dart';
 import 'package:employee_details/update_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +14,23 @@ class EmployeeListScreen extends StatefulWidget {
 
 class EmployeeListScreenState extends State<EmployeeListScreen> {
   final databaseReference = FirebaseDatabase.instance.ref().child("users");
-  final collectionReference = FirebaseFirestore.instance.collection("user");
+  final collectionReference = FirebaseFirestore.instance
+      .collection("user 1")
+      .where("Email" "==" "Alwin123@gamil.com");
   final documentReference = FirebaseDatabase.instance.ref().child("users");
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Employee List")),
+      appBar: AppBar(
+        title: const Text("Employee List"),
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
+            },
+            child: Icon(Icons.arrow_back)),
+      ),
       body: Container(
         child: StreamBuilder(
             stream: FirebaseFirestore.instance.collection('users').snapshots(),
@@ -46,8 +57,8 @@ class EmployeeListScreenState extends State<EmployeeListScreen> {
                                     children: [
                                       Text(snapshot.data?.docs[index]
                                           ['First Name']),
-                                      Text(snapshot.data?.docs[index]
-                                          ['Address']),
+                                      // Text(snapshot.data?.docs[index]
+                                      //     ['password']),
                                       Text(snapshot.data?.docs[index]
                                           ['Date of Birth']),
                                       Text(snapshot.data!.docs[index]['Email']),
